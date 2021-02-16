@@ -19,3 +19,7 @@ Este projeto utiliza lombok para código boilerplate, instale a extenção na su
 
 https://projectlombok.org/setup/eclipse
 
+Este projeto utiliza spring, que por sua vez conecta por SSH por .jks e não .sso/.p12,
+configure o ojdbc.properties de sua wallet para utilizar keystore.
+
+https://blogs.oracle.com/dev2dev/ssl-connection-to-oracle-db-using-jdbc,-tlsv12,-jks-or-oracle-wallets
