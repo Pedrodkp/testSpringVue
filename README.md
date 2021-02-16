@@ -14,3 +14,8 @@ https://dev.to/pinei/free-oracle-database-how-to-10hb
 ## /server
 
 Diretório contempla projeto Java para BackEnd (APIs).
+
+Este projeto utiliza lombok para código boilerplate, instale a extenção na sua IDE preferida (Eclipse recomendado):
+
+https://projectlombok.org/setup/eclipse
+
