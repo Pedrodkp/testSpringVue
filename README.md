@@ -30,7 +30,16 @@ https://blogs.oracle.com/dev2dev/ssl-connection-to-oracle-db-using-jdbc,-tlsv12,
 
 ### Para realização do crud
 
-A montagem das apis para o crud de exemplo foi baseada no seguinte material:
+Para montar as APIs foram utilizados 3 tutoriais diferentes, utilizando o que era útil em cada um.
+
+A montagem base das APIs para o crud de exemplo foi baseada no seguinte material:
+
+https://www.javaguides.net/2020/01/spring-boot-hibernate-oracle-crud-example.html
+
+Porém utilizando de Lombok como feito neste material mas para MySQL:
+
+https://www.oracle.com/br/technical-resources/articles/dsl/crud-rest-sb2-hibernate.html
+
+Além disso, alguns imports do Java não estavam claros, as duvidas foram tiradas com base neste terceiro tutorial:
 
 https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-oracle-example/
-
