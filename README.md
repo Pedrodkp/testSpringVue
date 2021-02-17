@@ -19,7 +19,18 @@ Este projeto utiliza lombok para código boilerplate, instale a extenção na su
 
 https://projectlombok.org/setup/eclipse
 
+O projeto foi criado com o Spring Initializr
+
+https://start.spring.io/
+
 Este projeto utiliza spring, que por sua vez conecta por SSH por .jks e não .sso/.p12,
 configure o ojdbc.properties de sua wallet para utilizar keystore.
 
 https://blogs.oracle.com/dev2dev/ssl-connection-to-oracle-db-using-jdbc,-tlsv12,-jks-or-oracle-wallets
+
+### Para realização do crud
+
+A montagem das apis para o crud de exemplo foi baseada no seguinte material:
+
+https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-oracle-example/
+
