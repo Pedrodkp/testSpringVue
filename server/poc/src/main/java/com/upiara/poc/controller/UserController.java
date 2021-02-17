@@ -2,11 +2,15 @@ package com.upiara.poc.controller;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +25,14 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	private User getUser(Long userId) throws ResourceNotFoundException {
+		return userRepository.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe para o id: "+userId));
+	}
+	
 	@GetMapping("/users")
 	public List <User> getAllUsers() {
 		return userRepository.findAll();
@@ -29,8 +41,7 @@ public class UserController {
 	@GetMapping("/users/{id}")
 	public ResponseEntity <User> getUserById(@PathVariable(value = "id") Long userId)
 	throws ResourceNotFoundException {
-		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("Usuário não existe para o id: "+userId));
+		User user = this.getUser(userId);
 		return ResponseEntity.ok().body(user);
 	}
 	
@@ -38,5 +49,17 @@ public class UserController {
 	public User createUser(@RequestBody User user) {
 		userRepository.save(user);
 		return userRepository.findTopByOrderByIdDesc();
+	}
+	
+	@PutMapping("/users/{id}")
+	public User updateUser(@PathVariable(value="id") Long userId,
+			@RequestBody User userDetail) throws ResourceNotFoundException {
+		User user = this.getUser(userId);
+		user.setName(userDetail.getName());
+		user.setBirthday(userDetail.getBirthday());
+		user.setLanguage_code(userDetail.getLanguage_code());
+		userRepository.save(user);
+		entityManager.detach(user); //não pegar do cache, campos calculados em view
+		return this.getUser(userId);
 	}
 }
