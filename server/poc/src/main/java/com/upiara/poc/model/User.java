@@ -22,16 +22,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "VW_USERS")
 public class User {
 	@Id 
-	@GenericGenerator(name = "UseExistingIdOtherwiseGenerateUsingIdentity", strategy = "com.upiara.poc.generator.UseExistingIdOtherwiseGenerateUsingIdentity")
-	@GeneratedValue(generator = "UseExistingIdOtherwiseGenerateUsingIdentity")
+	@GenericGenerator(name = "DummyId", strategy = "com.upiara.poc.generator.DummyId")
+	@GeneratedValue(generator = "DummyId")
 	@Column(name = "id", unique = true, nullable = false, columnDefinition = "serial")
 	private Long id;
 	private String name;
 	private Date birthday;
 	private String language_code;
-	private String language_description;
-	
-	public void setId(Long ig) {
-		this.id = 1L; //ORA-32575
-	}
+	private String language_description;	
 }

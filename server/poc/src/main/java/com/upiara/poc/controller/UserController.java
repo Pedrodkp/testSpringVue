@@ -36,7 +36,6 @@ public class UserController {
 	
 	@PostMapping("/users")
 	public User createUser(@RequestBody User user) {
-		user.setId(null); //ORA-32575
 		userRepository.save(user);
 		return userRepository.findTopByOrderByIdDesc();
 	}
