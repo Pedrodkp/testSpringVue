@@ -51,3 +51,7 @@ https://stackoverflow.com/questions/3194721/bypass-generatedvalue-in-hibernate-m
 A alteração não retornava os campos calculados da view devido ao cache do hibernate, como limpar ele foi retirado deste material:
 
 https://stackoverflow.com/questions/25063995/spring-boot-handle-to-hibernate-sessionfactory
+
+Para ter uma interface grafica das APIs foi incluido um swagger, o how-to foi tirado deste material:
+
+https://www.treinaweb.com.br/blog/documentando-uma-api-spring-boot-com-o-swagger/
