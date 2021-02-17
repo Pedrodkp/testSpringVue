@@ -30,7 +30,7 @@ https://blogs.oracle.com/dev2dev/ssl-connection-to-oracle-db-using-jdbc,-tlsv12,
 
 ### Para realização do crud
 
-Para montar as APIs foram utilizados 3 tutoriais diferentes, utilizando o que era útil em cada um.
+Para montar as APIs foram utilizados vários tutoriais diferentes, utilizando o que era útil em cada um.
 
 A montagem base das APIs para o crud de exemplo foi baseada no seguinte material:
 
@@ -43,3 +43,11 @@ https://www.oracle.com/br/technical-resources/articles/dsl/crud-rest-sb2-hiberna
 Além disso, alguns imports do Java não estavam claros, as duvidas foram tiradas com base neste terceiro tutorial:
 
 https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-oracle-example/
+
+A inclusão não funcionava devido ao erro 'ORA-32575: Explicit column default is not supported for modifying vie hibernate' onde o Oracle não permitia informar o campo ID como 'default' e o Hibernate exige informar o campo para ID como não NULL e com estratégia de geração. Como o campo é controlado pelo banco de dados foi usado um gerador dummy, como retirei deste material:
+
+https://stackoverflow.com/questions/3194721/bypass-generatedvalue-in-hibernate-merge-data-not-in-db
+
+A alteração não retornava os campos calculados da view devido ao cache do hibernate, como limpar ele foi retirado deste material:
+
+https://stackoverflow.com/questions/25063995/spring-boot-handle-to-hibernate-sessionfactory
