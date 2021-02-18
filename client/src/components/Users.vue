@@ -2,12 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-10">
-                <h1>Users</h1>
+                <h1>Usuários</h1>
                 <hr><br><br>
                 <alertcrud :message="message" v-if="showMessage"></alertcrud>
                 <button type="button" class="btn btn-success btn-sm"
                         v-b-modal.user-modal
-                        @click="addUser()">Add User</button>
+                        @click="addUser()">Adicionar</button>
                 <br><br>
                 <table class="table table-hover">
                     <thead>
@@ -27,12 +27,12 @@
                                             class="btn btn-warning btn-sm"
                                             v-b-modal.user-modal
                                             @click="editUser(user)">
-                                        Update
+                                        Alterar
                                     </button>
                                     <button type="button"
                                             class="btn btn-danger btn-sm"
                                             @click="onDeleteUser(user)">
-                                        Delete
+                                        Deletar
                                     </button>
                                 </div>
                             </td>
@@ -48,33 +48,25 @@
                  hide-footer>
           <b-form @submit="onSubmit" @reset="onReset" class="w-100">
             <b-form-group id="form-title-group"
-                          label="Title:"
+                          label="Nome:"
                           label-for="form-title-input">
               <b-form-input id="form-title-input"
                             type="text"
-                            v-model="userForm.title"
+                            v-model="userForm.name"
                             required
-                            placeHolder="Enter title">
+                            placeHolder="Nome">
               </b-form-input>
             </b-form-group>
             <b-form-group id="form-author-group"
-                          label="Author:"
+                          label="Idioma:"
                           label-for="form-author-input">
-              <b-form-input id="form-author-input"
-                            type="text"
-                            v-model="userForm.author"
-                            required
-                            placeHolder="Enter author">
-              </b-form-input>
-            </b-form-group>
-            <b-form-group id="form-read-group">
-              <b-form-checkbox-group v-model="userForm.read" id="form-checks">
-                <b-form-checkbox value="true">Read?</b-form-checkbox>
-              </b-form-checkbox-group>
+              <b-form-select v-model="userForm.language_code" :options="languages">
+
+              </b-form-select>
             </b-form-group>
             <b-button-group>
-              <b-button type="submit" variant="primary">Submit</b-button>
-              <b-button type="reset" variant="danger">Cancel</b-button>
+              <b-button type="submit" variant="primary">Salvar</b-button>
+              <b-button type="reset" variant="danger">Cancelar</b-button>
             </b-button-group>
           </b-form>
         </b-modal>
@@ -93,13 +85,18 @@ export default {
       users: [],
       userForm: {
         id: '',
-        title: '',
-        author: '',
-        read: [],
+        name: '',
+        language_code: '',
+        language_description: '',
       },
       message: '',
       modalTitle: '',
       showMessage: false,
+      languages: [
+        {value: 'BR', text: 'Português'},
+        {value: 'EN', text: 'Inglês'},
+        {value: 'SP', text: 'Espanhol'},
+      ]
     };
   },
   components: {
@@ -122,7 +119,7 @@ export default {
       axios.post(path, payload)
         .then(() => {
           this.getUsers();
-          this.message = 'User added!';
+          this.message = 'Usuário incluído!';
           this.showMessage = true;
         })
         .catch((error) => {
@@ -132,10 +129,12 @@ export default {
         });
     },
     updateUser(payload, userID) {
-      const path = `http://localhost:8080/api/v1/users/${userID}'`;
+      const path = `http://localhost:8080/api/v1/users/${userID}`;
       axios.put(path, payload)
         .then(() => {
           this.getUsers();
+          this.message = 'Usuário alterado!';
+          this.showMessage = true;
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -148,7 +147,7 @@ export default {
       axios.delete(path)
         .then(() => {
           this.getUsers();
-          this.message = 'User removed!';
+          this.message = 'Usuário deletado!';
           this.showMessage = true;
         })
         .catch((error) => {
@@ -159,29 +158,26 @@ export default {
     },
     initForm() {
       this.userForm.id = '';
-      this.userForm.title = '';
-      this.userForm.author = '';
-      this.userForm.read = [];
+      this.userForm.name = '';
+      this.userForm.language_code = '';
+      this.userForm.language_description = '';
     },
     addUser() {
-      this.modalTitle = 'Add new user';
+      this.modalTitle = 'Adicionar usuário';
     },
     editUser(user) {
       this.userForm = user;
-      this.modalTitle = `Edit the user ${user.id}`;
+      this.modalTitle = `Editar usuário ${user.id}`;
     },
     onSubmit(evt) {
       evt.preventDefault();
       this.$refs.userModal.hide();
-      let read = false;
-      if (this.userForm.read[0]) read = true;
       const payload = {
-        title: this.userForm.title,
-        author: this.userForm.author,
-        read,
+        name: this.userForm.name,
+        language_code: this.userForm.language_code,
       };
       if (this.userForm.id) {
-        this.updateUser(payload, this.editForm.id);
+        this.updateUser(payload, this.userForm.id);
       } else {
         this.user(payload);
       }
@@ -195,7 +191,7 @@ export default {
     },
     onDeleteUser(user) {
       // eslint-disable-next-line
-      if (confirm('Do you really want to delete?')) {
+      if (confirm('Realmente deseja deletar?')) {
         this.removeUser(user.id);
       }
     },
